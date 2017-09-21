@@ -264,8 +264,13 @@ define dns::zone (
     # to current timestamp. A real zone file will be updated only at change of
     # the stage file, thanks to this serial is updated only in case of need.
 
+    $zone_year = inline_template('<%= Time.now.year %>')
+    $zone_month = inline_template('<%= sprintf "%02d" , Time.now.month %>')
+    $zone_day = inline_template('<%= sprintf "%02d" , Time.now.day %>')
+    $zone_hour = inline_template('<%= sprintf "%02d" , Time.now.hour %>')
+
     $zone_serial = $serial ? {
-      false   => inline_template('<%= Time.now.to_i %>'),
+      false   => "${zone_year}${zone_month}${zone_day}${zone_hour}",
       default => $serial
     }
     exec { "bump-${zone}-serial":
