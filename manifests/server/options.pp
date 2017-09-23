@@ -64,12 +64,6 @@
 #   dnssec_validation above), and true on Debian and on RedHat 6
 #   and above.
 #
-# [*auto_dnssec*]
-#   Controls the automatic signing of the DNSSEC records in the zone file
-#
-# [*inline_signing*]
-#   Places the signing inline of the DNS records
-#
 # [*forward_policy*]
 #   The forwarding policy to use.  Must be `first` or `only`.
 #   If not defined, the `named` default of `first` will be used.
@@ -174,8 +168,6 @@ define dns::server::options (
   $data_dir = $::dns::server::params::data_dir,
   $dnssec_validation = $::dns::server::params::default_dnssec_validation,
   $dnssec_enable = $::dns::server::params::default_dnssec_enable,
-  $auto_dnssec = undef,
-  $inline_signing =undef,
   $forward_policy = undef,
   $forwarders = [],
   $listen_on = [],

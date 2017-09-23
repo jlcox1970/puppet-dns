@@ -50,4 +50,11 @@ zone "<%= @zone %>" {
     <%- end -%>
     };
 <%- end -%>
+<% if @auto_dnssec -%>
+    auto-dnssec <%= @auto_dnssec %>;
+    <% if @inline_signing -%>
+    inline-signing <%= @inline_signing %>;
+    <%- end -%>
+<%- end -%>
+
 };

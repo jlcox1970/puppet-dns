@@ -163,6 +163,13 @@
 #   *allow_forwarder* and *forward_policy* to be set).
 #   Defaults to `master`.
 #
+# [*auto_dnssec*]
+#   Controls the automatic signing of the DNSSEC records in the zone file
+#
+# [*inline_signing*]
+#   Places the signing inline of the DNS records
+#
+
 define dns::zone (
   $soa = $::fqdn,
   $soa_email = "root.${::fqdn}",
@@ -187,6 +194,9 @@ define dns::zone (
   $data_dir = $::dns::server::params::data_dir,
   $view = undef,
   $default_zone = false,
+  $auto_dnssec = undef,
+  $inline_signing =undef,
+
 ) {
 
   $cfg_dir = $dns::server::params::cfg_dir
