@@ -55,7 +55,7 @@ zone "<%= @zone %>" {
     <% if @inline_signing -%>
     inline-signing <%= @inline_signing %>;
     <%- end -%>
-    <% @key_directory -%>
+    <% if @key_directory -%>
     key-directory <%= @key_directory %>;
     <%- end -%>
 <%- end -%>
