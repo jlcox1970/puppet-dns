@@ -195,9 +195,16 @@ define dns::zone (
   $view = undef,
   $default_zone = false,
   $auto_dnssec = undef,
-  $inline_signing =undef,
-
+  $inline_signing = undef,
+  $key_dir = undef,
 ) {
+
+  if $key_dir != undef {
+    $key_directory = $key_dir
+  }else {
+    $key_directory = $data_dir
+  }
+
 
   $cfg_dir = $dns::server::params::cfg_dir
 
