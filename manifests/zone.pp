@@ -284,14 +284,21 @@ define dns::zone (
     $zone_year = inline_template('<%= Time.now.year %>')
     $zone_month = inline_template('<%= sprintf "%02d" , Time.now.month %>')
     $zone_day = inline_template('<%= sprintf "%02d" , Time.now.day %>')
-    $zone_hour = inline_template('<%= sprintf "%02d" , Time.now.hour %>')
-
-    $zone_serial = $serial ? {
-      false   => "${zone_year}${zone_month}${zone_day}${zone_hour}",
-      default => $serial
+    
+    case $zone_serial {
+      false :{
+        if $::bind_serial[zone]['dnsdate'] != ${zone_year}${zone_month}${zone_day} {
+          $serial = "${zone_year}${zone_month}${zone_day}01"
+        }else{
+          $serial = $::bind_serial[zone]['serial'] + 1
+        }
+      }
+      default :{
+        $serial = $zone_serial
+      }
     }
     exec { "bump-${zone}-serial":
-      command     => "sed '8s/_SERIAL_/${zone_serial}/' ${zone_file_stage} > ${zone_file}",
+      command     => "sed '8s/_SERIAL_/${serial}/' ${zone_file_stage} > ${zone_file}",
       path        => ['/bin', '/sbin', '/usr/bin', '/usr/sbin'],
       refreshonly => true,
       provider    => posix,
