@@ -297,7 +297,7 @@ define dns::zone (
         $zone_serial = $zone_serial
       }
     }
-    exec { "bump-${zone}-serial}":
+    exec { "bump-${zone}-serial":
       command     => "sed '8s/_SERIAL_/${zone_serial}/' ${zone_file_stage} > ${zone_file}",
       path        => ['/bin', '/sbin', '/usr/bin', '/usr/sbin'],
       refreshonly => true,
