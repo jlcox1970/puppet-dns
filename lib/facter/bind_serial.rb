@@ -17,10 +17,11 @@ when /Linux/
 			serial =serial_split[0]
 			dnsdate = serial[0,8]
 			dnsserial = serial[8,10]
-
+			zone = zone.split("db.")
+			_zone = zone[1]
 
 			_bind_serials = {}
-			_bind_serials['zone'] = zone
+			_bind_serials['zone'] = _zone
 			_bind_serials['serial'] = serial
 			_bind_serials['dnsdate'] = dnsdate 
 			_bind_serials['dnsserial'] = dnsserial
