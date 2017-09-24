@@ -294,7 +294,6 @@ define dns::zone (
       false :{
         if ( $current != $new ) {
           $dnsserial_new = "10"
-          $new_serial = "${new}${dnsserial_new}"
           notify {"New serial new day for ${zone} :::: ${new_serial}":}
         }else{
           if ( $current == undef ){
