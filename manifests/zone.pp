@@ -299,7 +299,7 @@ define dns::zone (
             $new_serail = "${new}01"
     notify {"New serial as old was blankfor ${zone} :::: ${new_serial}":}
           }else{
-            $new_serial = $current + 1
+            $new_serial = int($current)  + 1
     notify {"New serial bump for ${zone} :::: ${new_serial}":}
           }
         }
