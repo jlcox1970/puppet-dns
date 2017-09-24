@@ -289,7 +289,7 @@ define dns::zone (
     $new = "${zone_year}${zone_month}${zone_day}"
     notify {"$zone Current date: $current  ,  New date: $new":}
 
-    case $zone_serial {
+    case $serial {
       false :{
         if ( $current != $new ) {
           $new_serial = "${new}01"
