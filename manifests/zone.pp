@@ -293,26 +293,24 @@ define dns::zone (
     case $serial {
       false :{
         if ( $current != $new ) {
-          $dnsserial_new = "01"
+          $dnsserial_new = "10"
           $new_serial = "${new}${dnsserial_new}"
           notify {"New serial new day for ${zone} :::: ${new_serial}":}
         }else{
           if ( $current == undef ){
             if ( $dnsserial == undef ){
-              $dnsserial_new = "01"
-              $new_serial = "${new}${dnsserial_new}"
+              $dnsserial_new = "10"
             }else {
               $dnsserial_new = 1+$dnsserial_new  
-              $new_serial = "${new}${dnsserial_new}"
             }
           } else {
             $dnsserial_new = 1+$dnsserial_new
-            $new_serial = "${new}${dnsserial_new}"
           }
         }
       }
-  
+      $dnsserial_new_pad = inline_template('<%= sprintf "%02d" , @dnsserial_new %>')
 
+      $new_serial = "${new}${dnsserial_new_pad}"
 
       #           $new_serail = "${new}01"
       #      notify {"New serial as old was blank ${zone} :::: ${new_serial}":}

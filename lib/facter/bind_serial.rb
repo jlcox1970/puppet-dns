@@ -22,9 +22,9 @@ when /Linux/
 
                         _bind_serials = {}
                         _bind_serials['zone_file'] = zone
-                        _bind_serials['serial'] = serial
-                        _bind_serials['dnsdate'] = dnsdate
-                        _bind_serials['dnsserial'] = dnsserial
+			_bind_serials['serial'] = serial.to_i
+			_bind_serials['dnsdate'] = dnsdate.to_i
+			_bind_serials['dnsserial'] = dnsserial.to_i
                         bind_serials[zone_name] = _bind_serials
                 end
                 setcode do
