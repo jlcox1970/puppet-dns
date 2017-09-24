@@ -285,7 +285,7 @@ define dns::zone (
     $zone_month = inline_template('<%= sprintf "%02d" , Time.now.month %>')
     $zone_day = inline_template('<%= sprintf "%02d" , Time.now.day %>')
  
-    $current = $::bind_serials[$zone]['dnsdate']
+    $current = $::bind_serials["$zone"]['dnsdate']
     $new = "${zone_year}${zone_month}${zone_day}"
     notify {"$zone Current date: $current  ,  New date: $new":}
 
