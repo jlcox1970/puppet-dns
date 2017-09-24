@@ -305,6 +305,9 @@ define dns::zone (
               $dnsserial_new = 1+$dnsserial_new  
               $new_serial = "${new}${dnsserial_new}"
             }
+          } else {
+            $dnsserial_new = 1+$dnsserial_new
+            $new_serial = "${new}${dnsserial_new}"
           }
         }
       }
