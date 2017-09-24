@@ -287,7 +287,7 @@ define dns::zone (
 $zone_name = $name
   $current_serial = $::bind_serials["$zone_name"]
     
-  notify {"full bind_serail ::: $::bind_serials":}
+  notify {"$zone full bind_serail ::: $::bind_serials":}
   notify {"$zone current serial is $current_serial ":}
     case $zone_serial {
       false :{
