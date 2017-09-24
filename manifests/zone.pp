@@ -292,17 +292,18 @@ define dns::zone (
     case $zone_serial {
       false :{
         if ( $current != $new ) {
-          $zone_serial = "${new}01"
+          $new_serial = "${new}01"
         }else{
-          $zone_serial = $current + 1
+          $new_serial = $current + 1
         }
       }
       default :{
-        $zone_serial = $zone_serial
+        $new_serial = $zone_serial
       }
     }
+    notify {"New serial for ${zone} :::: ${new_serial}":}
     exec { "bump-${zone}-serial":
-      command     => "sed '8s/_SERIAL_/${zone_serial}/' ${zone_file_stage} > ${zone_file}",
+      command     => "sed '8s/_SERIAL_/${new_serial}/' ${zone_file_stage} > ${zone_file}",
       path        => ['/bin', '/sbin', '/usr/bin', '/usr/sbin'],
       refreshonly => true,
       provider    => posix,
