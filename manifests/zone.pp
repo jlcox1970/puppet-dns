@@ -287,13 +287,13 @@ define dns::zone (
  
     $current = $::bind_serials["$zone"]['dnsdate']
     $dnsserial  = $::bind_serials["$zone"]['dnsserial']
-    $new_string = "${zone_year}${zone_month}${zone_day}"
-    $new = inline_template('<%= @new_string.to_i %>')
+    $new = "${zone_year}${zone_month}${zone_day}"
+    #    $new = inline_template('<%= @new_string.to_i %>')
     notify {"$zone Current date: $current,  New date: $new":}
 
     case $serial {
       false :{
-        if ( $current != $new ) {
+        if ( "$current" != "$new" ) {
           $dnsserial_new = "10"
           notify {"New day for ${zone}":}
         }else{
