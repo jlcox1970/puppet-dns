@@ -308,9 +308,9 @@ define dns::zone (
           }
         }
       }
-      $dnsserial_new_pad = inline_template('<%= sprintf "%02d" , @dnsserial_new %>')
+      #$dnsserial_new_pad = inline_template('<%= sprintf "%02d" , @dnsserial_new %>')
 
-      $new_serial = "${new}${dnsserial_new_pad}"
+      $new_serial = "${new}${dnsserial_new}"
 
       #           $new_serail = "${new}01"
       #      notify {"New serial as old was blank ${zone} :::: ${new_serial}":}
