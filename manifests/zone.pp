@@ -293,23 +293,37 @@ define dns::zone (
     case $serial {
       false :{
         if ( $current != $new ) {
-          $new_serial = "${new}01"
+          $dnsserial_new = "01"
+          $new_serial = "${new}${dnsserial_new}"
           notify {"New serial new day for ${zone} :::: ${new_serial}":}
         }else{
-          if ( $current == "" ){
-            $new_serail = "${new}01"
-            notify {"New serial as old was blank ${zone} :::: ${new_serial}":}
-          }else{
-            if ( $dnsserial == "" ){
-              $dnsserial_new = 10 
+          if ( $current == undef ){
+            if ( $dnsserial == undef ){
+              $dnsserial_new = "01"
+              $new_serial = "${new}${dnsserial_new}"
             }else {
-              $dnsserial_new = 1 + $dnsserial 
-              $new_serial = "${current}${dnsserial_new}"
-              notify {"New serial bump for ${zone} :::: ${new_serial}":}
+              $dnsserial_new = 1+$dnsserial_new  
+              $new_serial = "${new}${dnsserial_new}"
             }
           }
         }
       }
+  
+
+
+      #           $new_serail = "${new}01"
+      #      notify {"New serial as old was blank ${zone} :::: ${new_serial}":}
+      #    }else{
+      #     if ( $dnsserial == "" ){
+      #       $dnsserial_new = 10 
+      #     }else {
+      #       $dnsserial_new = 1 + $dnsserial 
+      #       $new_serial = "${current}${dnsserial_new}"
+      #       notify {"New serial bump for ${zone} :::: ${new_serial}":}
+      #     }
+      #   }
+      # }
+      #}
       default :{
         $new_serial = $zone_serial
       }
