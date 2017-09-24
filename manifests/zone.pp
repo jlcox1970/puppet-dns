@@ -288,8 +288,6 @@ define dns::zone (
     $current = $::bind_serials["$zone"]['dnsdate']
     $dnsserial  = $::bind_serials["$zone"]['dnsserial']
     $new = "${zone_year}${zone_month}${zone_day}"
-    #    $new = inline_template('<%= @new_string.to_i %>')
-    notify {"$zone Current date: $current,  New date: $new":}
 
     case $serial {
       false :{
@@ -315,7 +313,6 @@ define dns::zone (
         $new_serial = $zone_serial
       }
     }
-          notify {"New serial for ${zone} :::: ${new_serial}":}
     exec { "bump-${zone}-serial":
       command     => "sed '8s/_SERIAL_/${new_serial}/' ${zone_file_stage} > ${zone_file}",
       path        => ['/bin', '/sbin', '/usr/bin', '/usr/sbin'],
