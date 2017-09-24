@@ -294,19 +294,20 @@ define dns::zone (
       false :{
         if ( $current != $new ) {
           $new_serial = "${new}01"
-    notify {"New serial new day for ${zone} :::: ${new_serial}":}
+          notify {"New serial new day for ${zone} :::: ${new_serial}":}
         }else{
           if ( $current == "" ){
             $new_serail = "${new}01"
-    notify {"New serial as old was blank ${zone} :::: ${new_serial}":}
+            notify {"New serial as old was blank ${zone} :::: ${new_serial}":}
           }else{
-          if ( $ndsserial == "" ){
+            if ( $ndsserial == "" ){
 
-            $dnsserial_new = 10 
-          }else {
-            $dnsserial_new = 1 + $dnsserial 
-            $new_serial = "${current}${dnsserial_new}"
-    notify {"New serial bump for ${zone} :::: ${new_serial}":}
+              $dnsserial_new = 10 
+            }else {
+              $dnsserial_new = 1 + $dnsserial 
+              $new_serial = "${current}${dnsserial_new}"
+              notify {"New serial bump for ${zone} :::: ${new_serial}":}
+            }
           }
         }
       }
