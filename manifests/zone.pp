@@ -294,7 +294,11 @@ define dns::zone (
         if ( $current != $new ) {
           $new_serial = "${new}01"
         }else{
-          $new_serial = $current + 1
+          if ( $current == "" ){
+            $new_serail = "${new}01"
+          }else{
+            $new_serial = $current + 1
+          }
         }
       }
       default :{
