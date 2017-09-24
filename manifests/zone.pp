@@ -284,7 +284,8 @@ define dns::zone (
     $zone_year = inline_template('<%= Time.now.year %>')
     $zone_month = inline_template('<%= sprintf "%02d" , Time.now.month %>')
     $zone_day = inline_template('<%= sprintf "%02d" , Time.now.day %>')
-    
+   
+    notify {"current serial is $::bind_serial[$zone]['dnsdate'] ":}
     case $zone_serial {
       false :{
         if ( $::bind_serial[$zone]['dnsdate'] != "${zone_year}${zone_month}${zone_day}" ) {
