@@ -291,10 +291,10 @@ define dns::zone (
 
     case $zone_serial {
       false :{
-        if ( $::bind_serials[$zone]['dnsdate'] != "${zone_year}${zone_month}${zone_day}" ) {
-          $zone_serial = "${zone_year}${zone_month}${zone_day}01"
+        if ( $current != $new ) {
+          $zone_serial = "${new}01"
         }else{
-          $zone_serial = $::bind_serial[$zone]['serial'] + 1
+          $zone_serial = $current + 1
         }
       }
       default :{
