@@ -286,6 +286,7 @@ define dns::zone (
     $zone_day = inline_template('<%= sprintf "%02d" , Time.now.day %>')
  
     $current = $::bind_serials["$zone"]['dnsdate']
+    $dnsserial  = $::bind_serials["$zone"]['dnsserial']
     $new = "${zone_year}${zone_month}${zone_day}"
     notify {"$zone Current date: $current  ,  New date: $new":}
 
@@ -297,9 +298,10 @@ define dns::zone (
         }else{
           if ( $current == "" ){
             $new_serail = "${new}01"
-    notify {"New serial as old was blankfor ${zone} :::: ${new_serial}":}
+    notify {"New serial as old was blank ${zone} :::: ${new_serial}":}
           }else{
-            $new_serial = int($current)  + 1
+            $dnsserial_new = imnline_template('<%= sprintf "%02d", @dnsserial + 1 %>')
+            $new_serial = "${current}${dnsserial_new}"
     notify {"New serial bump for ${zone} :::: ${new_serial}":}
           }
         }
