@@ -285,13 +285,13 @@ define dns::zone (
     $zone_month = inline_template('<%= sprintf "%02d" , Time.now.month %>')
     $zone_day = inline_template('<%= sprintf "%02d" , Time.now.day %>')
 $zone_name = $name
-  $current_serial = $::bind_serial["$zone_name"]
+  $current_serial = $::bind_serials["$zone_name"]
     
-  notify {"full bind_serail ::: $::bind_serial":}
+  notify {"full bind_serail ::: $::bind_serials":}
   notify {"$zone current serial is $current_serial ":}
     case $zone_serial {
       false :{
-        if ( $::bind_serial[$zone]['dnsdate'] != "${zone_year}${zone_month}${zone_day}" ) {
+        if ( $::bind_serials[$zone]['dnsdate'] != "${zone_year}${zone_month}${zone_day}" ) {
           $zone_serial = "${zone_year}${zone_month}${zone_day}01"
         }else{
           $zone_serial = $::bind_serial[$zone]['serial'] + 1
