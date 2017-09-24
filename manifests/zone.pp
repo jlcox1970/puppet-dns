@@ -293,11 +293,14 @@ define dns::zone (
       false :{
         if ( $current != $new ) {
           $new_serial = "${new}01"
+    notify {"New serial new day for ${zone} :::: ${new_serial}":}
         }else{
           if ( $current == "" ){
             $new_serail = "${new}01"
+    notify {"New serial as old was blankfor ${zone} :::: ${new_serial}":}
           }else{
             $new_serial = $current + 1
+    notify {"New serial bump for ${zone} :::: ${new_serial}":}
           }
         }
       }
@@ -305,7 +308,6 @@ define dns::zone (
         $new_serial = $zone_serial
       }
     }
-    notify {"New serial for ${zone} :::: ${new_serial}":}
     exec { "bump-${zone}-serial":
       command     => "sed '8s/_SERIAL_/${new_serial}/' ${zone_file_stage} > ${zone_file}",
       path        => ['/bin', '/sbin', '/usr/bin', '/usr/sbin'],
