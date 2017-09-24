@@ -307,24 +307,10 @@ define dns::zone (
             $dnsserial_new = 1+$dnsserial_new
           }
         }
+        $dnsserial_new_pad = inline_template('<%= sprintf "%02d" , @dnsserial_new %>')
+
+        $new_serial = "${new}${dnsserial_new}"
       }
-      #$dnsserial_new_pad = inline_template('<%= sprintf "%02d" , @dnsserial_new %>')
-
-      $new_serial = "${new}${dnsserial_new}"
-
-      #           $new_serail = "${new}01"
-      #      notify {"New serial as old was blank ${zone} :::: ${new_serial}":}
-      #    }else{
-      #     if ( $dnsserial == "" ){
-      #       $dnsserial_new = 10 
-      #     }else {
-      #       $dnsserial_new = 1 + $dnsserial 
-      #       $new_serial = "${current}${dnsserial_new}"
-      #       notify {"New serial bump for ${zone} :::: ${new_serial}":}
-      #     }
-      #   }
-      # }
-      #}
       default :{
         $new_serial = $zone_serial
       }
