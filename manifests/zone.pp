@@ -288,17 +288,17 @@ define dns::zone (
     case $zone_serial {
       false :{
         if ( $::bind_serial[$zone]['dnsdate'] != "${zone_year}${zone_month}${zone_day}" ) {
-          $serial = "${zone_year}${zone_month}${zone_day}01"
+          $zone_serial = "${zone_year}${zone_month}${zone_day}01"
         }else{
-          $serial = $::bind_serial[$zone]['serial'] + 1
+          $zone_serial = $::bind_serial[$zone]['serial'] + 1
         }
       }
       default :{
-        $serial = $zone_serial
+        $zone_serial = $zone_serial
       }
     }
-    exec { "bump-${zone}-serial":
-      command     => "sed '8s/_SERIAL_/${serial}/' ${zone_file_stage} > ${zone_file}",
+    exec { "bump-${zone}-serial to ${zone_serial}":
+      command     => "sed '8s/_SERIAL_/${zone_serial}/' ${zone_file_stage} > ${zone_file}",
       path        => ['/bin', '/sbin', '/usr/bin', '/usr/sbin'],
       refreshonly => true,
       provider    => posix,
