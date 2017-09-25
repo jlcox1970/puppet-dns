@@ -34,6 +34,6 @@ begin
 		end
 	end
 
-rescue []
+rescue 
 end
 
