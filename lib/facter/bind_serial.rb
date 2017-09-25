@@ -55,7 +55,6 @@ when /Linux/
 			setcode do
 				bind_serials
 			end
-
 		end
 	end
-
+end
