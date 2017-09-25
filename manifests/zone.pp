@@ -285,8 +285,8 @@ define dns::zone (
     $zone_month = inline_template('<%= sprintf "%02d" , Time.now.month %>')
     $zone_day = inline_template('<%= sprintf "%02d" , Time.now.day %>')
  
-    $current = $::bind_serials["$zone"]['dnsdate']
-    $dnsserial  = $::bind_serials["$zone"]['dnsserial']
+    $current = pick ($::bind_serials["$zone"]['dnsdate'], undef)
+    $dnsserial  = pick ($::bind_serials["$zone"]['dnsserial'], undef)
     $new = "${zone_year}${zone_month}${zone_day}"
 
     case $serial {
