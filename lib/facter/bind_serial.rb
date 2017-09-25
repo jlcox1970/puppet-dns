@@ -1,9 +1,9 @@
 require 'facter'
-begin
-	kernel = Facter.value(:kernel)
-	case kernel
-	when /Linux/
-		os = Facter.value(:osfamily)
+kernel = Facter.value(:kernel)
+case kernel
+when /Linux/
+	os = Facter.value(:osfamily)
+	begin
 		Facter.add(:bind_serials) do
 			bind_serials = {}
 			case os
@@ -32,9 +32,30 @@ begin
 				bind_serials
 			end
 		end
-	end
+	rescue
+		Facter.add(:bind_serials) do
+			bind_serials = {}
+			case os
+			when /RedHat/
+				all_zones = %x[ grep file /etc/named/named.conf.local  |cut -d\\\" -f2 ]
+			when /Debian/
+				all_zones = %x[ grep file /etc/bind/named.conf.local  |cut -d\\\" -f2 ]
+			end
+			all_zones.split("\n").each do |zone|
+				zone_split = zone.split("db.")
+				zone_name = zone_split[1]
 
-rescue 
-	[]
-end
+				_bind_serials = {}
+				_bind_serials['zone_file'] = zone
+				_bind_serials['serial'] = 0
+				_bind_serials['dnsdate'] = 0
+				_bind_serials['dnsserial'] = 0 
+				bind_serials[zone_name] = _bind_serials
+			end
+			setcode do
+				bind_serials
+			end
+
+		end
+	end
 
