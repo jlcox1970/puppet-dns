@@ -35,5 +35,6 @@ begin
 	end
 
 rescue 
+	[]
 end
 
