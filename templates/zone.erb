@@ -19,7 +19,7 @@ type <%= @zone_type %>;
 	<%- else -%>
 		masters { <%= @slave_masters %>;};
 	<%- end -%>
-	allow-transfer {"none";};
+		allow-transfer {"none";};
 <% elsif @zone_type == 'master' -%>
 	<%- if @allow_transfer.is_a?(Array) and @allow_transfer.size != 0 -%>
 		allow-transfer {
