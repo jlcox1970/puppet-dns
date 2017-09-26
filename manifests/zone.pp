@@ -346,7 +346,7 @@ define dns::zone (
     content => template("${module_name}/zone.erb"),
   }
 
-  dns::dnssec::key { $zone:
+  dns::dnssec::keys { $zone:
     zone     => $zone,
     bind_dir => $bind_dir,
     urandom  => true
