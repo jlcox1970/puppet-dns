@@ -351,4 +351,5 @@ define dns::zone (
     bind_dir => $bind_dir,
     urandom  => true
   }
+
 }
