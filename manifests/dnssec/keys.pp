@@ -5,6 +5,6 @@ define dns::dnssec::keys ($zone,$bind_dir,$urandom = false)
   }
   exec {"dnssec-keygen $random -a RSASHA256 -b 2048 -3 $zone":
     cwd      => $bind_dir,
-    onceonly =>  true
+    refreshonly =>  true
   }
 }
