@@ -6,18 +6,19 @@ define dns::dnssec::keys ($zone,$bind_dir,$urandom = false, $key_refresh = 12, $
       file { "${bind_dir}/K${zone}*":
         ensure =>  absent
       }
-      default : {
-        if ( $urandom == true ){
-          $random = " -r /dev/urandom"
+    }
+    default : {
+      if ( $urandom == true ){
+        $random = " -r /dev/urandom"
+      }
+      case $refresh_unit {
+        /^h|H/:{
+          $multiplier = 3600
         }
-        case $refresh_unit {
-          /^h|H/:{
-            $multiplier = 3600
-          }
-          /^m|M/:{
-            $multiplier = 3600 * 24 * 30
-          }
-          /^d|D/ : {
+        /^m|M/:{
+          $multiplier = 3600 * 24 * 30
+        }
+        /^d|D/ : {
           $multiplier = 3600 * 24
         }
         default: {
