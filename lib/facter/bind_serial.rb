@@ -66,6 +66,7 @@ when /Linux/
                                         ksk_current_activate =  %x[ dnssec-settime -u -p A #{ksk_current_file} | awk '{print $2}' ].to_i
                                         _bind_serials['dnssec_ksk_created']     = ksk_current_created
                                         _bind_serials['dnssec_ksk_date']        = ksk_date
+                                        _bind_serials['dnssec_ksk_file']        = ksk_current_file
                                         _bind_serials['dnssec_ksk_publish']     = ksk_current_publish
                                         _bind_serials['dnssec_ksk_activate']    = ksk_current_activate
 
