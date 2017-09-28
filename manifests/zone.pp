@@ -293,7 +293,6 @@ define dns::zone (
       false :{
         if ( "$current" != "$new" ) {
           $dnsserial_new = 1
-          notify {"New day for ${zone}":}
         }else{
           if ( $current == undef ){
             if ( $dnsserial == undef ){
@@ -346,10 +345,12 @@ define dns::zone (
     content => template("${module_name}/zone.erb"),
   }
 
-  dns::dnssec::keys { $zone:
-    zone     => $zone,
-    bind_dir => $bind_dir,
-    urandom  => true
+  if auto_dnssec != undef {
+    dns::dnssec::keys { $zone:
+      zone     => $zone,
+      bind_dir => $bind_dir,
+      urandom  => true
+    }
   }
 
 }
