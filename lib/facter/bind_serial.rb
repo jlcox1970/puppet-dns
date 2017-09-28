@@ -38,7 +38,7 @@ when /Linux/
 
 					zsk_current_created =   %x[ for i in `ls #{bind_dir}/K#{zone_name}*key`; do grep DNSKEY $i | awk '{printf $4" "}' ;dnssec-settime -u -p C $i; done |grep 256 |grep -v UNSET |awk '{print $3}'|sort |tail -n 1 ].to_i
 					if zsk_current_created != 0
-						zsk_date =              %x[ date  --date='@#{zsk_current_created}' +%Y%m%d%I%M%S ].to_i
+						zsk_date =              %x[ date  --date='@#{zsk_current_created}' +%Y%m%d%k%M%S ].to_i
 						zsk_current_file =      %x[ for FILE in `ls #{bind_dir}/K#{zone_name}*key`; do test $(egrep -o "#{zsk_date}|DNSKEY 256" $FILE | uniq | sort | uniq | wc -l) -eq 2 && echo $FILE; done ].to_s.delete("\n")
 
 						zsk_current_publish =   %x[ dnssec-settime -u -p P #{zsk_current_file} | awk '{print $2}' ].to_i
@@ -63,7 +63,7 @@ when /Linux/
 
 					ksk_current_created =   %x[ for i in `ls #{bind_dir}/K#{zone_name}*key`; do grep DNSKEY $i | awk '{printf $4" "}' ;dnssec-settime -u -p C $i; done |grep 257 |grep -v UNSET |awk '{print $3}'|sort |tail -n 1 ].to_i
 					if ksk_current_created != 0
-						ksk_date =              %x[ date  --date='@#{ksk_current_created}' +%Y%m%d%I%M%S ].to_i
+						ksk_date =              %x[ date  --date='@#{ksk_current_created}' +%Y%m%d%k%M%S ].to_i
 						ksk_current_file =      %x[ for FILE in `ls #{bind_dir}/K#{zone_name}*key`; do test $(egrep -o "#{ksk_date}|DNSKEY 257" $FILE | uniq | sort | uniq | wc -l) -eq 2 && echo $FILE; done ].to_s.delete("\n")
 						ksk_current_publish =   %x[ dnssec-settime -u -p P #{ksk_current_file} | awk '{print $2}' ].to_i
 						ksk_current_activate =  %x[ dnssec-settime -u -p A #{ksk_current_file} | awk '{print $2}' ].to_i
