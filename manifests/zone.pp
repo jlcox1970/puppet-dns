@@ -345,12 +345,14 @@ define dns::zone (
     content => template("${module_name}/zone.erb"),
   }
 
-  if auto_dnssec != undef {
+  if $auto_dnssec != undef {
     dns::dnssec::keys { $zone:
       zone     => $zone,
       bind_dir => $bind_dir,
       urandom  => true
     }
+  }else {
+    dns::dnssec::keys { $zone: ensure =>  purged }
   }
 
 }
