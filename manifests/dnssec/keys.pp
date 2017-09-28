@@ -20,9 +20,14 @@ define dns::dnssec::keys ($zone,$bind_dir,$urandom = false, $key_refresh = 12, $
   $remaining_time =  $multiplier * $key_refresh
 
   # Get the exisiting ket revoke time
-  $zsk_revokei_fact = pick ($::bind_serials["$zone"]['dnssec_zsk_revoke'], 0)
-  $ksk_revoke_fact = pick ($::bind_serials["$zone"]['dnssec_ksk_revoke'], 0)
-  
+  $zsk_revoke_fact  = $::bind_serials["$zone"]['dnssec_zsk_revoke']
+  $ksk_revoke_fact  = $::bind_serials["$zone"]['dnssec_ksk_revoke']
+  $zsk_current_key  = $::bind_serials["$zone"]['dnssec_zsk_file']
+  $ksk_current_key  = $::bind_serials["$zone"]['dnssec_ksk_file']
+  $zsk_revoke = inline_template("<%= @zsk_revoke_fact.to_i %>")
+  $ksk_revoke = inline_template("<%= @ksk_revoke_fact.to_i %>")
+
+
 
   # Get current EPOC time
   $epoc_time = inline_template("<%= Time.now.to_i %>")
@@ -30,10 +35,19 @@ define dns::dnssec::keys ($zone,$bind_dir,$urandom = false, $key_refresh = 12, $
   $zsk_remain = $zsk_revoke - $epoc_time
   $ksk_remain = $ksk_revoke - $epoc_time
 
-
+  if $zsk_current_key != undef {
+    $zsk_successor = " -S $zsk_current_key "
+  } else {
+    $zsk_successor = '-a RSASHA256 -b 2048 -3'
+  }
+  if $ksk_current_key != undef {
+    $ksk_successor = " -S $ksk_current_key "
+  } else {
+    $ksk_successor = '-a RSASHA256 -b 2048 -3'
+  }
   if $zsk_remain < $remaining_time {
     notify {"ZSK for zone $zone is aproaching expiry, generating new key":}
-    exec {"dnssec-keygen $random -a RSASHA256 -b 2048 -3 $zone":
+    exec {"dnssec-keygen -R +1mo -I +2mo -D +3mo $zsk_successor $random  $zone ":
       cwd  => $bind_dir,
       path => '$PATH:/usr/sbin',
     }
@@ -41,7 +55,7 @@ define dns::dnssec::keys ($zone,$bind_dir,$urandom = false, $key_refresh = 12, $
 
   if $ksk_remain < $remaining_time {
     notify {"KSK for zone $zone is aproaching expiry, generating new key":}
-    exec {"dnssec-keygen $random -a RSASHA256 -b 2048 -3 -fk $zone":
+    exec {"dnssec-keygen -R +1y -I +2y -D +3y $ksk_successor $random  -fk $zone":
       cwd  => $bind_dir,
       path => '$PATH:/usr/sbin',
     }
