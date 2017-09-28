@@ -3,8 +3,18 @@ define dns::dnssec::keys ($zone,$bind_dir,$urandom = false, $key_refresh = 12, $
   case $ensure {
 
     /^purged/:{
-      file { "${bind_dir}/K${zone}*":
-        ensure =>  absent
+      $zsk_file = $::bind_serials["$zone"]['dnssec_zsk_file']
+      $ksk_file = $::bind_serials["$zone"]['dnssec_ksk_file']
+      if $zsk_file != undef {
+        file { $zsk_file :
+          ensure =>  absent
+        }
+      }
+
+      if $ksk_file != undef {
+        file { $ksk_file :
+          ensure =>  absent
+        }
       }
     }
     default : {

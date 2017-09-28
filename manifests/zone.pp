@@ -351,7 +351,7 @@ define dns::zone (
   dns::dnssec::keys { $zone:
     zone     => $zone,
     bind_dir => $bind_dir,
-    urandom  => truea,
+    urandom  => true,
     ensure => $dnssec_purge
   }
 
