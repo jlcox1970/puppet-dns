@@ -75,3 +75,4 @@ define dns::dnssec::keys ($zone,$bind_dir,$urandom = false, $key_refresh = 12, $
       }
     }
   }
+}
