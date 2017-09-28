@@ -20,8 +20,8 @@ define dns::dnssec::keys ($zone,$bind_dir,$urandom = false, $key_refresh = 12, $
   $remaining_time =  $multiplier * $key_refresh
 
   # Get the exisiting ket revoke time
-  $zsk_revoke = pick ($::bind_serials["$zone"]['dnssec_zsk_revoke'], undef)
-  $ksk_revoke = pick ($::bind_serials["$zone"]['dnssec_ksk_revoke'], undef)
+  $zsk_revoke = pick ($::bind_serials["$zone"]['dnssec_zsk_revoke'], 0)
+  $ksk_revoke = pick ($::bind_serials["$zone"]['dnssec_ksk_revoke'], 0)
 
   # Get current EPOC time
   $epoc_time = inline_template("<%= Time.now.to_i %>")
