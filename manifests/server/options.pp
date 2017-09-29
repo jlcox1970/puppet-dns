@@ -165,6 +165,7 @@ define dns::server::options (
   $control_channel_ip = undef,
   $control_channel_port = undef,
   $control_channel_allow = undef,
+  $control_channel_keys = undef,
   $data_dir = $::dns::server::params::data_dir,
   $dnssec_validation = $::dns::server::params::default_dnssec_validation,
   $dnssec_enable = $::dns::server::params::default_dnssec_enable,
@@ -237,6 +238,9 @@ define dns::server::options (
 
   if $control_channel_allow != undef {
     validate_array($control_channel_allow)
+  }
+  if $control_channel_keys != undef {
+    validate_array($control_channel_keys)
   }
 
   validate_array($also_notify)
