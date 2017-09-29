@@ -151,9 +151,9 @@ controls {
     port <%= @control_channel_port %>
 <% if @control_channel_allow -%>
     allow { <%= @control_channel_allow.join('; ') %>; }
-<% end -%>;
+<% end -%>
 <% if @control_channel_keys -%>
-    allow { <%= @control_channel_keys.join('; ') %>; }
+    keys { <%= @control_channel_keys.join('; ') %>; }
 <% end -%>;
 
 };
