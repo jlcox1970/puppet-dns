@@ -147,15 +147,7 @@ statistics-channels {
 
 <% if @control_channel_ip and @control_channel_port -%>
 controls {
-    inet <%= @control_channel_ip %> 
-    port <%= @control_channel_port %>
-<% if @control_channel_allow -%>
-    allow { <%= @control_channel_allow.join('; ') %>; }
-<% end -%>
-<% if @control_channel_keys -%>
-    keys { <%= @control_channel_keys.join('; ') %>; }
-<% end -%>;
-
+    inet <%= @control_channel_ip %> port <%= @control_channel_port %><% if @control_channel_allow -%> allow { <%= @control_channel_allow.join('; ') %>; }<% end -%><% if @control_channel_keys -%> keys { <%= @control_channel_keys.join('; ') %>; }<% end -%>;
 };
 <% end -%>
 
